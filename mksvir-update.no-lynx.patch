@@ -1,5 +1,6 @@
---- mksvir-update	Fri Jul  4 20:47:03 2003
-+++ mksvir-update	Fri Nov  7 13:00:31 2003
+diff -urN SOURCES/mksvir-update SOURCES/mksvir-update
+--- SOURCES/mksvir-update	Fri Jul  4 20:47:03 2003
++++ SOURCES/mksvir-update	Fri Nov  7 14:10:02 2003
 @@ -61,7 +61,7 @@
  # remote file timestamp check
  
