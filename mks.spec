@@ -22,6 +22,7 @@ Source4:	%{name}vir-update
 Source5:	http://download.mks.com.pl/download/linux/mksLinux-contrib.tgz
 # Source5-md5:	d73d2ef861b3fddbe4f6dbe60a0a43d1
 Source6:	%{name}-cron-updatedb
+Patch0:		%{name}vir-update.no-lynx.patch
 URL:		http://linux.mks.com.pl/
 Requires:	/usr/bin/wget
 Requires:	bc
@@ -50,7 +51,6 @@ Summary:	Mks Antivirus database updater
 Summary(pl):	Aktualizator baz antywirusowych mks
 Group:		Applications
 Requires:	/usr/bin/wget
-Requires:	/usr/bin/lynx
 
 %description updater
 This package contains antivirus databases updater from
@@ -64,6 +64,7 @@ oraz odpowiedni wpis w crontab.daily.
 
 %prep
 cd %{_sourcedir}
+%patch0 -p1
 %{!?_without_md5sum: md5sum -c bazy4.tgz.md5sum}
 cd -
 
