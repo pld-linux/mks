@@ -43,7 +43,7 @@ MKS_DOWNLOAD=/tmp
 MKSD_KICK=Y
 
 # opcja (facility) logowania
-MKS_LOG_FACILITY=daemon.info
+MKS_LOG_FACILITY=daemon
 
 # log z datami aktualizacji (zakomentuj, aby nie tworzyc logu)
 MKS_UPDATE_LOG="${MKS_BASES}"/mks_vir_update.log
@@ -74,7 +74,7 @@ lecho ()
     then
         logger -p "${MKS_LOG_FACILITY}".$1 -t mksupdate -- "$2"
     else
-        echo "$2"
+	[ "$1" = err ] && echo "$2" >&2 || echo $
     fi
 }
 
