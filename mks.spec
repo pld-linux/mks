@@ -3,11 +3,11 @@
 Summary:	An anti-virus utility for Unix
 Summary(pl):	Antywirusowe narzêdzie dla Unixów
 Name:		mks
-Version:	1.5.4
+Version:	1.5.5
 Release:	1
 License:	distributable
 Group:		Applications
-Source0:	http://download.mks.com.pl/download/linux/mksLinux-1-5-4.tgz
+Source0:	http://download.mks.com.pl/download/linux/mksLinux-1-5-5.tgz
 Source1:	%{name}-vir.cfg
 Source2:	http://download.mks.com.pl/download/linux/bazy2.tgz
 # http://www.nzs.pw.edu.pl/~bkorupcz/pub/prog/patches/mksvir-update
