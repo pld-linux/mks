@@ -7,7 +7,7 @@ Summary:	An anti-virus utility for Unix
 Summary(pl):	Antywirusowe narzêdzie dla Uniksów
 Name:		mks
 Version:	1.9.6
-Release:	2
+Release:	1
 License:	This program will be for free till the end of year 2004 (see licence.txt)
 Group:		Applications
 Source0:	http://download.mks.com.pl/download/linux/mks32-Linux-i386-%(echo %{version} | tr . -).tgz
