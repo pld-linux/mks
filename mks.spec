@@ -10,7 +10,7 @@ Version:	1.9.5
 Release:	1
 License:	This program will be for free till the end of year 2004 (see licence.txt)
 Group:		Applications
-Source0:	http://download.mks.com.pl/download/linux/mks32-%(echo %{version} | tr '.' '-')-Linux-i386.tgz
+Source0:	http://download.mks.com.pl/download/linux/mks32-%(echo %{version} | tr . -)-Linux-i386.tgz
 # Source0-md5:	2789db2463ca44eddefd696dc3a11d5b
 #Source0:	mks32-1-9-2-Linux-i386.tgz
 Source1:	%{name}-vir.cfg
