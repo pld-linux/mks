@@ -18,11 +18,11 @@ Source1:	%{name}-vir.cfg
 Source2:	http://download.mks.com.pl/download/linux/bazy4.tgz
 # Source2-md5:	9c9f70b50c2ed23ee20064686604084b
 Source3:	bazy4.tgz.md5sum
-Requires:	/usr/bin/wget
 # http://www.nzs.pw.edu.pl/~bkorupcz/pub/prog/patches/mksvir-update
 Source4:	%{name}vir-update
 Source5:	http://download.mks.com.pl/download/linux/mksLinux-contrib.tgz
 # Source5-md5:	d73d2ef861b3fddbe4f6dbe60a0a43d1
+Requires:	/usr/bin/wget
 URL:		http://linux.mks.com.pl/
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 ExclusiveArch:	%{ix86}
@@ -54,10 +54,10 @@ mv mks*/* ./
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{%{_var}/lib/%{name},%{_sysconfdir}/cron.daily}
+install -d $RPM_BUILD_ROOT{%{_var}/lib/%{name},%{_sysconfdir}/cron.daily,%{_bindir}}
 
-install -D %{SOURCE1}	$RPM_BUILD_ROOT%{_sysconfdir}/mks_vir.cfg
-install -D mks32.static	$RPM_BUILD_ROOT%{_bindir}/mks32
+install %{SOURCE1}	$RPM_BUILD_ROOT%{_sysconfdir}/mks_vir.cfg
+install mks32.static	$RPM_BUILD_ROOT%{_bindir}/mks32
 install bazy4/*.dat	$RPM_BUILD_ROOT%{_var}/lib/%{name}
 install %{SOURCE4}	$RPM_BUILD_ROOT%{_bindir}
 ln -sf %{_bindir}/mksvir-update $RPM_BUILD_ROOT/etc/cron.daily/mksvir-update
