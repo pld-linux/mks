@@ -10,8 +10,9 @@ Group:		Applications
 Source0:	http://download.mks.com.pl/download/linux/mksLinux-1-5-6.tgz
 Source1:	%{name}-vir.cfg
 Source2:	http://download.mks.com.pl/download/linux/bazy2.tgz
+Source3:	bazy2.tgz.md5sum
 # http://www.nzs.pw.edu.pl/~bkorupcz/pub/prog/patches/mksvir-update
-Source3:	mksvir-update
+Source4:	mksvir-update
 URL:		http://linux.mks.com.pl/
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -22,6 +23,9 @@ MKS Antivirus is anti-virus scanner for Unix.
 MKS jest skanerem antywirusowym dla systemów uniksowych.
 
 %prep
+cd %{_sourcedir}
+md5sum -c bazy2.tgz.md5sum
+cd -
 %setup -q -c -a 2
 
 %install
@@ -30,7 +34,7 @@ install -d $RPM_BUILD_ROOT%{_var}/lib/%{name}
 install -D %{SOURCE1}	$RPM_BUILD_ROOT%{_sysconfdir}/mks_vir.cfg
 install -D mks32	$RPM_BUILD_ROOT%{_bindir}/mks32
 install bazy2/*.dat	$RPM_BUILD_ROOT%{_var}/lib/%{name}/
-install %{SOURCE3}	$RPM_BUILD_ROOT%{_bindir}
+install %{SOURCE4}	$RPM_BUILD_ROOT%{_bindir}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
