@@ -6,26 +6,23 @@
 Summary:	An anti-virus utility for Unix
 Summary(pl):	Antywirusowe narzêdzie dla Unixów
 Name:		mks
-Version:	1.9.2
-Release:	2
+Version:	1.9.3
+Release:	1
 License:	This program will be for free till the end of year 2003 (see licence.txt)
 Group:		Applications
-#Source0:	http://download.mks.com.pl/download/linux/mks32-1-9-2-Linux-i386.tgz
-Source0:	mks32-1-9-2-Linux-i386.tgz
-# Source0-md5:	cd5260f0a2f802bb1570b1df7238218c
+Source0:	http://download.mks.com.pl/download/linux/mks32-1-9-3-Linux-i386.tgz
+# Source0-md5:	c88f2ec7e03c54c976f3e21818f04a9d
+# Source0:	mks32-1-9-2-Linux-i386.tgz
 Source1:	%{name}-vir.cfg
 Source2:	http://download.mks.com.pl/download/linux/bazy4.tgz
-# Source2-md5:	007bbcf851b0fe6ec60c0b53ed3d1656
+# Source2-md5:	7e060ed9a9746495a573f9389994c515
 Source3:	bazy4.tgz.md5sum
 # http://www.nzs.pw.edu.pl/~bkorupcz/pub/prog/patches/mksvir-update
 Source4:	%{name}vir-update
 Source5:	http://download.mks.com.pl/download/linux/mksLinux-contrib.tgz
 # Source5-md5:	d73d2ef861b3fddbe4f6dbe60a0a43d1
-Source6:	%{name}-cron-updatedb
-Patch0:		%{name}vir-update.no-lynx.patch
 URL:		http://linux.mks.com.pl/
 Requires:	/usr/bin/wget
-Requires:	bc
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 ExclusiveArch:	%{ix86}
 
@@ -51,6 +48,7 @@ Summary:	Mks Antivirus database updater
 Summary(pl):	Aktualizator baz antywirusowych mks
 Group:		Applications
 Requires:	/usr/bin/wget
+Requires:	/usr/bin/lynx
 
 %description updater
 This package contains antivirus databases updater from
@@ -64,7 +62,6 @@ oraz odpowiedni wpis w crontab.daily.
 
 %prep
 cd %{_sourcedir}
-%patch0 -p1
 %{!?_without_md5sum: md5sum -c bazy4.tgz.md5sum}
 cd -
 
@@ -73,17 +70,13 @@ mv mks*/* ./
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{%{_var}/lib/%{name},%{_sysconfdir}/cron.d,%{_bindir},%{_sbindir}}
+install -d $RPM_BUILD_ROOT{%{_var}/lib/%{name},%{_sysconfdir}/cron.daily,%{_bindir}}
 
 install %{SOURCE1}	$RPM_BUILD_ROOT%{_sysconfdir}/mks_vir.cfg
 install mks32.static	$RPM_BUILD_ROOT%{_bindir}/mks32
 install bazy4/*.dat	$RPM_BUILD_ROOT%{_var}/lib/%{name}
 install %{SOURCE4}	$RPM_BUILD_ROOT%{_bindir}
-install %{SOURCE6}	$RPM_BUILD_ROOT%{_sbindir}/mksvir-cron-updatedb
-
-cat <<EOF >$RPM_BUILD_ROOT%{_sysconfdir}/cron.d/%{name}
-5 * * * *     root    %{_sbindir}/mksvir-cron-updatedb
-EOF
+ln -sf %{_bindir}/mksvir-update $RPM_BUILD_ROOT/etc/cron.daily/mksvir-update
 
 mv CONTRIB/CHANGE1.TXT .
 mv CONTRIB/postfix1.htm .
@@ -111,5 +104,4 @@ rm -rf $RPM_BUILD_ROOT
 %files updater
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/mksvir-update
-%attr(755,root,root) %{_sbindir}/mksvir-cron-updatedb
-%attr(640,root,root) %{_sysconfdir}/cron.d/*
+%attr(755,root,root) %{_sysconfdir}/cron.daily/*
