@@ -8,16 +8,16 @@
 Summary:	An anti-virus utility for Unix
 Summary(pl):	Antywirusowe narzêdzie dla Unixów
 Name:		mks
-Version:	1.7.6
+Version:	1.9.0
 Release:	1
 License:	distributable
 Group:		Applications
-Source0:	http://download.mks.com.pl/download/linux/mks32-1-7-6-Linux-i386.tgz
-# Source0-md5:	23053cb628037893a5f99e6ebe214acd
+Source0:	http://download.mks.com.pl/download/linux/mks32-1-9-0-Linux-i386.tgz
+# Source0-md5:	150384474b83e1469f2e2df55f184f6b
 Source1:	%{name}-vir.cfg
-Source2:	http://download.mks.com.pl/download/linux/bazy3.tgz
-# Source2-md5:	d74bf809fc0a3a3068d7326bc72c5a8e
-Source3:	bazy3.tgz.md5sum
+Source2:	http://download.mks.com.pl/download/linux/bazy4.tgz
+# Source2-md5:	d45928f4bd490765a3324f1435f582ee
+Source3:	bazy4.tgz.md5sum
 Requires:	/usr/bin/wget
 # http://www.nzs.pw.edu.pl/~bkorupcz/pub/prog/patches/mksvir-update
 Source4:	%{name}vir-update
@@ -46,7 +46,7 @@ Pakiet ten zawiera bazy antywirusowe z dnia 2003/06/25.
 
 %prep
 cd %{_sourcedir}
-%{!?_without_md5sum: md5sum -c bazy3.tgz.md5sum}
+%{!?_without_md5sum: md5sum -c bazy4.tgz.md5sum}
 cd -
 
 %setup -q -c -a2 -a5
@@ -58,7 +58,7 @@ install -d $RPM_BUILD_ROOT{%{_var}/lib/%{name},%{_sysconfdir}/cron.daily}
 
 install -D %{SOURCE1}	$RPM_BUILD_ROOT%{_sysconfdir}/mks_vir.cfg
 install -D mks32.static	$RPM_BUILD_ROOT%{_bindir}/mks32
-install bazy3/*.dat	$RPM_BUILD_ROOT%{_var}/lib/%{name}
+install bazy4/*.dat	$RPM_BUILD_ROOT%{_var}/lib/%{name}
 install %{SOURCE4}	$RPM_BUILD_ROOT%{_bindir}
 ln -sf %{_bindir}/mksvir-update $RPM_BUILD_ROOT/etc/cron.daily/mksvir-update
 
@@ -76,7 +76,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc CHANGE1.TXT postfix1.htm postfix2.txt postfix3.txt readme.txt CONTRIB
+%doc CHANGE1.TXT postfix1.htm postfix2.txt postfix3.txt readme.txt CONTRIB licencja.txt
 %attr(755,root,root) %{_bindir}/*
 %attr(755,root,root) %dir %{_var}/lib/%{name}
 %config(noreplace) %verify(not md5 size mtime) %{_sysconfdir}/mks_vir.cfg
