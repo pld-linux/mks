@@ -12,7 +12,8 @@
 # config
 
 SUBDIR=bazy4
-MKS_URL="http://download.mks.com.pl/download/linux/$SUBDIR.tgz"
+#MKS_URL="http://download.mks.com.pl/download/linux/$SUBDIR.tgz"
+MKS_URL="http://80.72.32.61/download/linux2/$SUBDIR.tgz"
 MKS_PATH="/var/lib/mks"
 HUP=mksd
 LOGPRIO=daemon.info
