@@ -8,7 +8,7 @@ Summary(pl):	Antywirusowe narzêdzie dla Unixów
 Name:		mks
 Version:	1.9.1
 Release:	2
-License:	This program will be for free till the end of year 2003
+License:	This program will be for free till the end of year 2003 (see licencja.txt)
 Group:		Applications
 Source0:	http://download.mks.com.pl/download/linux/mks32-1-9-1-Linux-i386.tgz
 # Source0-md5:	e3a7a221db91988a77419b09342fa7bb
