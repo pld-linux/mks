@@ -21,8 +21,10 @@ Source3:	bazy4.tgz.md5sum
 Source4:	%{name}vir-update
 Source5:	http://download.mks.com.pl/download/linux/mksLinux-contrib.tgz
 # Source5-md5:	d73d2ef861b3fddbe4f6dbe60a0a43d1
+Source6:	%{name}-cron-updatedb
 URL:		http://linux.mks.com.pl/
 Requires:	/usr/bin/wget
+Requires:	bc
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 ExclusiveArch:	%{ix86}
 
@@ -78,7 +80,7 @@ install bazy4/*.dat	$RPM_BUILD_ROOT%{_var}/lib/%{name}
 install %{SOURCE4}	$RPM_BUILD_ROOT%{_bindir}
 
 cat <<EOF >$RPM_BUILD_ROOT%{_sysconfdir}/cron.d/%{name}
-0 */6 * * *     root    %{_bindir}/mksvir-update
+5 * * * *     root    %{_sbindir}/mksvir-cron-updatedb
 EOF
 
 mv CONTRIB/CHANGE1.TXT .
@@ -107,4 +109,5 @@ rm -rf $RPM_BUILD_ROOT
 %files updater
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/mksvir-update
+%attr(755,root,root) %{_sbindir}/mksvir-cron-updatedb
 %attr(640,root,root) %{_sysconfdir}/cron.d/*
