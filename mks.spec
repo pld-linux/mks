@@ -8,15 +8,15 @@
 Summary:	An anti-virus utility for Unix
 Summary(pl):	Antywirusowe narzêdzie dla Unixów
 Name:		mks
-Version:	1.7.4
+Version:	1.7.5
 Release:	1
 License:	distributable
 Group:		Applications
-Source0:	http://download.mks.com.pl/download/linux/%{name}Linux-1-7-4.tgz
-# Source0-md5:	fe00d10ebc186e28d9ed3653763f0b28
+Source0:	http://download.mks.com.pl/download/linux/mks32-1-7-5-Linux-i386.tgz
+# Source0-md5:	f76a7f90f81971bfd1d04c84b95a62a5
 Source1:	%{name}-vir.cfg
 Source2:	http://download.mks.com.pl/download/linux/bazy3.tgz
-# Source2-md5:	d1fef367c839d1259d8be36061eec068
+# Source2-md5:	d74bf809fc0a3a3068d7326bc72c5a8e
 Source3:	bazy3.tgz.md5sum
 Requires:	/usr/bin/wget
 # http://www.nzs.pw.edu.pl/~bkorupcz/pub/prog/patches/mksvir-update
@@ -39,10 +39,10 @@ Summary(pl):	Bazy antywirusowe mks
 Group:		Applications
 
 %description bases
-This package contains antivirus databases from 2003/05/08.
+This package contains antivirus databases from 2003/06/25.
 
 %description bases -l pl
-Pakiet ten zawiera bazy antywirusowe z dnia 2003/05/08.
+Pakiet ten zawiera bazy antywirusowe z dnia 2003/06/25.
 
 %prep
 cd %{_sourcedir}
@@ -50,6 +50,7 @@ cd %{_sourcedir}
 cd -
 
 %setup -q -c -a2 -a5
+mv mks*/* ./
 
 %install
 rm -rf $RPM_BUILD_ROOT
