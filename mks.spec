@@ -12,7 +12,7 @@ Release:	1
 License:	distributable
 Group:		Applications
 Source0:	http://download.mks.com.pl/download/linux/%{name}Linux-1-7-4.tgz
-# Source0-md5:	e5acbc439505c297a7532534c6ce2dd1
+# Source0-md5:	fe00d10ebc186e28d9ed3653763f0b28
 Source1:	%{name}-vir.cfg
 Source2:	http://download.mks.com.pl/download/linux/bazy3.tgz
 # Source2-md5:	d1fef367c839d1259d8be36061eec068
@@ -20,6 +20,8 @@ Source3:	bazy3.tgz.md5sum
 Requires:	/usr/bin/wget
 # http://www.nzs.pw.edu.pl/~bkorupcz/pub/prog/patches/mksvir-update
 Source4:	%{name}vir-update
+Source5:	http://download.mks.com.pl/download/linux/mksLinux-contrib.tgz
+# Source5-md5:	d73d2ef861b3fddbe4f6dbe60a0a43d1
 URL:		http://linux.mks.com.pl/
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 ExclusiveArch:	%{ix86}
@@ -44,10 +46,19 @@ Pakiet ten zawiera bazy antywirusowe z dnia 2003/05/08.
 %prep
 cd %{_sourcedir}
 %{!?_without_md5sum: md5sum -c bazy3.tgz.md5sum}
+tar xzvf mksLinux-contrib.tgz
 cd -
+
 %setup -q -c -a 2
 
 %install
+mv %{_sourcedir}/CONTRIB/CHANGE1.TXT %{_builddir}/%{name}-%{version}
+mv %{_sourcedir}/CONTRIB/postfix1.htm %{_builddir}/%{name}-%{version}
+mv %{_sourcedir}/CONTRIB/postfix2.txt %{_builddir}/%{name}-%{version}
+mv %{_sourcedir}/CONTRIB/postfix3.txt %{_builddir}/%{name}-%{version}
+mv %{_sourcedir}/CONTRIB/readme.txt %{_builddir}/%{name}-%{version}
+mv %{_sourcedir}/CONTRIB/2002 %{_builddir}/%{name}-%{version}/CONTRIB
+rm -rf %{_sourcedir}/CONTRIB
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{_var}/lib/%{name},%{_sysconfdir}/cron.daily}
 install -D %{SOURCE1}	$RPM_BUILD_ROOT%{_sysconfdir}/mks_vir.cfg
@@ -61,7 +72,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc CHANGE1.TXT  LICENCJA.TXT readme.txt CONTRIB
+%doc CHANGE1.TXT  postfix1.htm postfix2.txt postfix3.txt readme.txt CONTRIB
 %attr(755,root,root) %{_bindir}/*
 %attr(755,root,root) %dir %{_var}/lib/%{name}
 %attr(644,root,root) %config(noreplace) %verify(not md5 size mtime) %{_sysconfdir}/mks_vir.cfg
