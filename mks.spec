@@ -3,17 +3,16 @@
 Summary:	An anti-virus utility for Unix
 Summary(pl):	Antywirusowe narzêdzie dla Unixów
 Name:		mks
-Version:	1.5.8
+Version:	1.5.9
 Release:	1
 License:	distributable
 Group:		Applications
-Source0:	http://download.mks.com.pl/download/linux/mksLinux-1-5-6.tgz
+Source0:	http://download.mks.com.pl/download/linux/mksLinux-1-5-9.tgz
 Source1:	%{name}-vir.cfg
-Source2:	http://download.mks.com.pl/download/linux/bazy2.tgz
-Source3:	bazy2.tgz.md5sum
+Source2:	http://download.mks.com.pl/download/linux/bazy3.tgz
+Source3:	bazy3.tgz.md5sum
 # http://www.nzs.pw.edu.pl/~bkorupcz/pub/prog/patches/mksvir-update
 Source4:	mksvir-update
-Source5:	http://download.mks.com.pl/download/linux/mksLinux-1-5-8.tgz
 URL:		http://linux.mks.com.pl/
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -25,16 +24,16 @@ MKS jest skanerem antywirusowym dla systemów uniksowych.
 
 %prep
 cd %{_sourcedir}
-md5sum -c bazy2.tgz.md5sum
+md5sum -c bazy3.tgz.md5sum
 cd -
-%setup -q -c -a 2 -a 5
+%setup -q -c -a 2
 
 %install
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT%{_var}/lib/%{name}
 install -D %{SOURCE1}	$RPM_BUILD_ROOT%{_sysconfdir}/mks_vir.cfg
 install -D mks32.static	$RPM_BUILD_ROOT%{_bindir}/mks32
-install bazy2/*.dat	$RPM_BUILD_ROOT%{_var}/lib/%{name}/
+install bazy3/*.dat	$RPM_BUILD_ROOT%{_var}/lib/%{name}/
 install %{SOURCE4}	$RPM_BUILD_ROOT%{_bindir}
 
 %clean
@@ -42,7 +41,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc CHANGE1.TXT  LICENCJA.TXT mksLinux-contrib.tgz  readme.txt
+%doc CHANGE1.TXT  LICENCJA.TXT readme.txt CONTRIB
 %attr(755,root,root) %{_bindir}/*
 %attr(755,root,root) %dir %{_var}/lib/%{name}
 %attr(644,root,root) %verify(not md5 size mtime) %{_var}/lib/%{name}/*
