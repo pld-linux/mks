@@ -33,7 +33,7 @@ MKS_BASES=/var/lib/mks
 
 # katalog programu PGP, w ktorym znajduje sie klucz publiczny mks-a
 # (zakomentuj, aby nie weryfikowac danych z serwera)
-PGP_PATH="${MKS_BASES}"/.pgp
+#PGP_PATH="${MKS_BASES}"/.pgp
 
 # katalog, gdzie bazy beda sciagane i obrabiane (musi istniec)
 MKS_DOWNLOAD="${MKS_BASES}"/tmp
