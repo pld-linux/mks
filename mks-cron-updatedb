@@ -1,0 +1,17 @@
+#!/bin/sh
+
+[ -f /etc/sysconfig/mksd ] && . /etc/sysconfig/mksd
+
+[ -z "$UPDATE_HOUR" ] && UPDATE_HOUR=2
+[ -z "$UPDATE_QUIET" ] && UPDATE_QUIET="yes"
+
+DIV="$(echo "$(LC_ALL=C date "+%H % ${UPDATE_HOUR}")" | bc)"
+
+if [ "$DIV" = "0" ]; then
+	umask 022
+	log=$(/usr/bin/mksvir-update 2>&1)
+	if [ "$UPDATE_QUIET" != "yes" ]; then
+	    echo "$log"
+	fi
+fi
+
