@@ -1,5 +1,5 @@
 #
-# conditional build:
+# Conditional build:
 # _without_md5sum --don't check md5sum for antivirus database (useful
 #	when doing ./builder -g -nc )
 #
@@ -25,7 +25,7 @@ URL:		http://linux.mks.com.pl/
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 ExclusiveArch:	%{ix86}
 
-[6~%description
+%description
 MKS Antivirus is anti-virus scanner for Unix.
 
 %description -l pl
