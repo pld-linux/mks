@@ -1,0 +1,116 @@
+#!/bin/sh
+#
+# Automatic database upgrade for MkS_Vir for Linux
+# version 0.02
+# (c) Bartlomiej Korupczynski '2002
+# bartek@net-serwis.pl
+# http://www.nzs.pw.edu.pl/~bkorupcz/
+#
+# GPL license
+#
+
+# config
+
+
+MKS_URL="http://download.mks.com.pl/download/linux/bazy2.tgz"
+MKS_PATH="/var/lib/mks"
+HUP=mksd
+LOGPRIO=daemon.info
+LOGTAG="mksvir-update"
+REMOVE=0
+
+# TMPDIR will be DELETED!
+TMPDIR="$MKS_PATH/tmp"
+FLOCK="$MKS_PATH/update.lock"
+LAST="$MKS_PATH/update.last"
+TIMESTAMP="$MKS_PATH/current"
+
+# startup
+PATH=/bin:/usr/bin
+export TMPDIR
+
+if [ -z "$MKS_URL" -o -z "$MKS_PATH" -o -z "$TMPDIR" -o -z "$FLOCK" -o -z "$LAST" -o -z "$TIMESTAMP" ]; then
+	echo "empty variables. quitting."
+	exit 10
+fi
+
+if [ -f "$FLOCK" ]; then
+	echo "Lockfile $FLOCK present. quitting."
+	exit 11
+fi
+touch "$FLOCK" || exit 15
+
+trap "rm -f \"$FLOCK\"" INT
+trap "rm -f \"$FLOCK\"" TERM
+trap "rm -f \"$FLOCK\"" QUIT
+trap "rm -f \"$FLOCK\"" HUP
+
+# pre
+
+cd "$MKS_PATH"
+FNAME="${MKS_URL##*/}"
+[ -f "$LAST" -a -w "$LAST" ] || touch "$LAST" || exit 15
+rm -rf "$TMPDIR"
+mkdir -m 0700 -p "$TMPDIR"
+
+# remote file timestamp check
+
+lynx -reload -dump -head "$MKS_URL" | grep Last-Modified >"$TIMESTAMP"
+ret=$?
+if [ $ret != 0 ]; then
+	rm -f "$FLOCK"
+	echo "problem with timestamp check. quitting."
+	exit 12
+fi
+
+cmp -s "$LAST" "$TIMESTAMP"
+if [ $? == 0 ]; then		# no update, no fun
+	rm -f "$FLOCK"
+	rm -rf "$TMPDIR"
+	rm -f "$TIMESTAMP"
+	exit 0
+fi
+
+[ -f "$FNAME" ] && mv "$FNAME" "$FNAME.last"
+wget -q -nd "$MKS_URL"
+if [ $? != 0 ]; then
+	echo "problem with wget. quitting."
+	rm -f "$FNAME"
+	rm -f "$FLOCK"
+	exit 13
+fi
+
+if [ ! -f "$FNAME" ]; then
+	echo "PANIC! downloaded file not there! quitting."
+	rm -f "$FLOCK"
+	exit 20
+fi
+
+tar ztf "$FNAME" | grep -q "/"
+if [ $? == 0 ]; then
+	echo "PANIC! $MKS_URL contains paths! quitting."
+	rm -f "$FLOCK"
+	exit 21
+fi
+
+tar zxf "$FNAME" -C "$TMPDIR"
+ret=$?
+if [ $ret != 0 ]; then
+	echo "problem with untarring: $ret. quitting."
+	rm -f "$FLOCK"
+	exit 14
+fi
+
+chmod 0644 $TMPDIR/*.dat
+mv $TMPDIR/*.dat $MKS_PATH
+
+logger -p "$LOGPRIO" -t "$LOGTAG" "MkS_Vir for Linux database successfully updated."
+[ -n "$HUP" ] && killall -HUP "$HUP"
+
+mv "$TIMESTAMP" "$LAST"
+rm -rf "$TMPDIR"
+[ "$REMOVE" != 0 ] && rm -f "$FNAME"
+
+rm -f "$FLOCK"
+exit 0
+
