@@ -24,7 +24,7 @@ MD5SUM=md5sum
 #MD5SUM=md5sum.textutils
 
 # sciezka do programu mks32 (lub mks32.static)
-MKS_XXXII=/usr/local/bin/mks32
+MKS_XXXII=/usr/bin/mks32
 
 # katalog z bazami wirusow
 # /var/lib jest zgodny z File Hierarhy Standard 2.3
@@ -36,14 +36,14 @@ MKS_BASES=/var/lib/mks
 #PGP_PATH="${MKS_BASES}"/.pgp
 
 # katalog, gdzie bazy beda sciagane i obrabiane (musi istniec)
-MKS_DOWNLOAD="${MKS_BASES}"/tmp
-#MKS_DOWNLOAD=/tmp
+#MKS_DOWNLOAD="${MKS_BASES}"/tmp
+MKS_DOWNLOAD=/tmp
 
 # czy wysylac sygnal do demona po wgraniu nowych baz?
 MKSD_KICK=Y
 
 # opcja (facility) logowania
-MKS_LOG_FACILITY=cron
+MKS_LOG_FACILITY=daemon.info
 
 # log z datami aktualizacji (zakomentuj, aby nie tworzyc logu)
 MKS_UPDATE_LOG="${MKS_BASES}"/mks_vir_update.log
