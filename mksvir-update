@@ -1,7 +1,7 @@
 #!/bin/sh
 #
 # Automatic database upgrade for MkS_Vir for Linux
-# version 0.11
+# version 0.12
 # (c) Bartlomiej Korupczynski '2002
 # bartek@net-serwis.pl
 # http://www.nzs.pw.edu.pl/~bkorupcz/
@@ -11,8 +11,8 @@
 
 # config
 
-
-MKS_URL="http://download.mks.com.pl/download/linux/bazy3.tgz"
+SUBDIR=bazy4
+MKS_URL="http://download.mks.com.pl/download/linux/$SUBDIR.tgz"
 MKS_PATH="/var/lib/mks"
 HUP=mksd
 LOGPRIO=daemon.info
@@ -29,6 +29,9 @@ TIMESTAMP="$MKS_PATH/current"
 PATH=/bin:/usr/bin
 export TMPDIR
 
+
+[ "$1" == "debug" ] && DEBUG=1 && echo "Debugging enabled"
+
 if [ -z "$MKS_URL" -o -z "$MKS_PATH" -o -z "$TMPDIR" -o -z "$FLOCK" -o -z "$LAST" -o -z "$TIMESTAMP" ]; then
 	echo "empty variables. quitting."
 	exit 10
@@ -40,6 +43,7 @@ if [ -f "$FLOCK" ]; then
 fi
 touch "$FLOCK" || exit 15
 
+[ -n "$DEBUG" ] && echo "Setting traps"
 trap "rm -f \"$FLOCK\"" INT
 trap "rm -f \"$FLOCK\"" TERM
 trap "rm -f \"$FLOCK\"" QUIT
@@ -47,8 +51,7 @@ trap "rm -f \"$FLOCK\"" HUP
 
 # pre
 
-[ "$1" == "debug" ] && DEBUG=1 && echo "Debugging enabled"
-
+[ -n "$DEBUG" ] && echo "Setting variables"
 cd "$MKS_PATH"
 FNAME="${MKS_URL##*/}"
 [ -f "$LAST" -a -w "$LAST" ] || touch "$LAST" || exit 15
@@ -76,11 +79,9 @@ if [ $? == 0 ]; then		# no update, no fun
 	exit 0
 fi
 
-QUIET="-q"
 [ -n "$DEBUG" ] && echo "Downloading new database"
-[ -n "$DEBUG" ] && QUIET=""
 [ -f "$FNAME" ] && mv "$FNAME" "$FNAME.last"
-wget $QUIET -nd "$MKS_URL"
+wget -q -nd "$MKS_URL"
 if [ $? != 0 ]; then
 	echo "problem with wget. quitting."
 	rm -f "$FNAME"
@@ -97,7 +98,7 @@ fi
 # protect from malicious proxy (webcache) and bugged tar
 
 [ -n "$DEBUG" ] && echo "Validating archive listing"
-tar ztf "$FNAME" | grep -v -q "^bazy3/\(mks[0-9a-z]*\.dat\)\{0,1\}$"
+tar ztf "$FNAME" | grep -v -q "^${SUBDIR}/\(mks[0-9a-zA-Z]*\.dat\)\{0,1\}$"
 if [ $? == 0 ]; then
 	echo -e "PANIC! $MKS_URL contains invalid paths! quitting.\n"
 	tar ztf "$FNAME"
@@ -115,11 +116,14 @@ if [ $ret != 0 ]; then
 fi
 
 [ -n "$DEBUG" ] && echo "Installing database"
-chmod 0644 $TMPDIR/bazy3/*.dat
-mv $TMPDIR/bazy3/*.dat $MKS_PATH
+chmod 0644 $TMPDIR/$SUBDIR/*.dat
+mv $TMPDIR/$SUBDIR/*.dat $MKS_PATH
 
 logger -p "$LOGPRIO" -t "$LOGTAG" "MkS_Vir for Linux database successfully updated."
 [ -n "$HUP" ] && killall -HUP "$HUP"
+
+echo "mks_vir database successfully updated."
+cat "$TIMESTAMP"
 
 mv "$TIMESTAMP" "$LAST"
 rm -rf "$TMPDIR"
