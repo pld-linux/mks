@@ -12,8 +12,10 @@ Release:	1
 License:	distributable
 Group:		Applications
 Source0:	http://download.mks.com.pl/download/linux/%{name}Linux-1-7-0.tgz
+# Source0-md5:	e5acbc439505c297a7532534c6ce2dd1
 Source1:	%{name}-vir.cfg
 Source2:	http://download.mks.com.pl/download/linux/bazy3.tgz
+# Source2-md5:	d1fef367c839d1259d8be36061eec068
 Source3:	bazy3.tgz.md5sum
 Requires:	/usr/bin/wget
 # http://www.nzs.pw.edu.pl/~bkorupcz/pub/prog/patches/mksvir-update
