@@ -1,7 +1,7 @@
 #!/bin/sh
 #
 # Automatic database upgrade for MkS_Vir for Linux
-# version 0.02
+# version 0.11
 # (c) Bartlomiej Korupczynski '2002
 # bartek@net-serwis.pl
 # http://www.nzs.pw.edu.pl/~bkorupcz/
@@ -12,7 +12,7 @@
 # config
 
 
-MKS_URL="http://download.mks.com.pl/download/linux/bazy2.tgz"
+MKS_URL="http://download.mks.com.pl/download/linux/bazy3.tgz"
 MKS_PATH="/var/lib/mks"
 HUP=mksd
 LOGPRIO=daemon.info
@@ -47,6 +47,8 @@ trap "rm -f \"$FLOCK\"" HUP
 
 # pre
 
+[ "$1" == "debug" ] && DEBUG=1 && echo "Debugging enabled"
+
 cd "$MKS_PATH"
 FNAME="${MKS_URL##*/}"
 [ -f "$LAST" -a -w "$LAST" ] || touch "$LAST" || exit 15
@@ -55,6 +57,7 @@ mkdir -m 0700 -p "$TMPDIR"
 
 # remote file timestamp check
 
+[ -n "$DEBUG" ] && echo "Retrieving timestamp"
 lynx -reload -dump -head "$MKS_URL" | grep Last-Modified >"$TIMESTAMP"
 ret=$?
 if [ $ret != 0 ]; then
@@ -63,14 +66,17 @@ if [ $ret != 0 ]; then
 	exit 12
 fi
 
+[ -n "$DEBUG" ] && echo "Comparing timestamp"
 cmp -s "$LAST" "$TIMESTAMP"
 if [ $? == 0 ]; then		# no update, no fun
+	[ -n "$DEBUG" ] && echo "No update needed"
 	rm -f "$FLOCK"
 	rm -rf "$TMPDIR"
 	rm -f "$TIMESTAMP"
 	exit 0
 fi
 
+[ -n "$DEBUG" ] && echo "Downloading new database"
 [ -f "$FNAME" ] && mv "$FNAME" "$FNAME.last"
 wget -q -nd "$MKS_URL"
 if [ $? != 0 ]; then
@@ -86,6 +92,18 @@ if [ ! -f "$FNAME" ]; then
 	exit 20
 fi
 
+# protect from malicious proxy (webcache) and bugged tar
+
+[ -n "$DEBUG" ] && echo "Validating archive listing"
+tar ztf "$FNAME" | grep -v -q "^bazy3/\(mks[0-9a-z]*\.dat\)\{0,1\}$"
+if [ $? == 0 ]; then
+	echo -e "PANIC! $MKS_URL contains invalid paths! quitting.\n"
+	tar ztf "$FNAME"
+	rm -f "$FLOCK"
+	exit 21
+fi
+
+[ -n "$DEBUG" ] && echo "Unpacking database"
 tar zxf "$FNAME" -C "$TMPDIR"
 ret=$?
 if [ $ret != 0 ]; then
@@ -94,8 +112,9 @@ if [ $ret != 0 ]; then
 	exit 14
 fi
 
-chmod 0644 $TMPDIR/bazy2/*.dat
-mv $TMPDIR/bazy2/*.dat $MKS_PATH
+[ -n "$DEBUG" ] && echo "Installing database"
+chmod 0644 $TMPDIR/bazy3/*.dat
+mv $TMPDIR/bazy3/*.dat $MKS_PATH
 
 logger -p "$LOGPRIO" -t "$LOGTAG" "MkS_Vir for Linux database successfully updated."
 [ -n "$HUP" ] && killall -HUP "$HUP"
