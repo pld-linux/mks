@@ -76,9 +76,11 @@ if [ $? == 0 ]; then		# no update, no fun
 	exit 0
 fi
 
+QUIET="-q"
 [ -n "$DEBUG" ] && echo "Downloading new database"
+[ -n "$DEBUG" ] && QUIET=""
 [ -f "$FNAME" ] && mv "$FNAME" "$FNAME.last"
-wget -q -nd "$MKS_URL"
+wget $QUIET -nd "$MKS_URL"
 if [ $? != 0 ]; then
 	echo "problem with wget. quitting."
 	rm -f "$FNAME"
