@@ -51,11 +51,11 @@ Requires:	/usr/bin/lynx
 
 %description updater
 This package contains antivirus databases updater from
-http://www.nzs.pw.edu.pl/~bkorupcz/pub/prog/patches/mksvir-update and a 
+http://www.nzs.pw.edu.pl/~bkorupcz/pub/prog/patches/mksvir-update and a
 appropriate crontab.daily entry.
 
 %description updater -l pl
-Pakiet ten zawiera akualizator baz antywirusowych z 
+Pakiet ten zawiera akualizator baz antywirusowych z
 http://www.nzs.pw.edu.pl/~bkorupcz/pub/prog/patches/mksvir-update
 oraz odpowiedni wpis w crontab.daily.
 
