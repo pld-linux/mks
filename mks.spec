@@ -1,24 +1,28 @@
 #
 # Conditional build:
 %bcond_without	md5sum	# don't check md5sum for antivirus database (useful
-#			when doing ./builder -g -nc )
+			# when doing ./builder -g -nc )
+# TODO:
+# - exctact mksupdate.sh configuration variables to external file,
+#   e.g. /etc/sysconfig/mksupdate
+# - handle mksupdate_en.sh
 #
 Summary:	An anti-virus utility for Unix
 Summary(pl):	Antywirusowe narzêdzie dla Uniksów
 Name:		mks
 Version:	1.9.6
-Release:	2
+Release:	3
 License:	This program will be for free till the end of year 2004 (see licence.txt)
 Group:		Applications
 Source0:	http://download.mks.com.pl/download/linux/mks32-Linux-i386-%(echo %{version} | tr . -).tgz
 # Source0-md5:	6d8cfa09835d9856aac92c0d26645336
 Source1:	%{name}-vir.cfg
-# link to source tgz is inside of http://download.mks.com.pl/download/linux/bazy4.tgz
-Source2:	bazy4.tgz
-# Source2-md5:	d610eb1d7f6f0f24494463f634223e9d
+# link to source tgz is inside http://download.mks.com.pl/download/linux/bazy.link
+Source2:	http://80.72.33.122/download/linux/bazy4.tgz
+# Source2-md5:	031fd6a6e0648c0e2479215dc58de7f6
 Source3:	bazy4.tgz.md5sum
-# http://www.nzs.pw.edu.pl/~bkorupcz/pub/prog/patches/mksvir-update
-Source4:	%{name}vir-update
+# http://download.mks.com.pl/download/linux/mksupdate.sh
+Source4:	%{name}update.sh
 Source5:	http://download.mks.com.pl/download/linux/mksLinux-contrib.tgz
 # Source5-md5:	d73d2ef861b3fddbe4f6dbe60a0a43d1
 Source6:	%{name}-cron-updatedb
@@ -53,16 +57,15 @@ Summary(pl):	Aktualizator baz antywirusowych MKS
 Group:		Applications
 Requires:	/usr/bin/wget
 Requires:	bc
+Requires:	coreutils
 
 %description updater
-This package contains antivirus databases updater from
-http://www.nzs.pw.edu.pl/~bkorupcz/pub/prog/patches/mksvir-update and
-an appropriate crontab.daily entry.
+This package contains antivirus databases updater and an appropriate
+crontab entry.
 
 %description updater -l pl
-Pakiet ten zawiera akualizator baz antywirusowych z
-http://www.nzs.pw.edu.pl/~bkorupcz/pub/prog/patches/mksvir-update oraz
-odpowiedni wpis w crontab.daily.
+Pakiet ten zawiera akualizator baz antywirusowych oraz odpowiedni wpis
+do crontaba.
 
 %prep
 cd %{_sourcedir}
@@ -83,7 +86,7 @@ install %{SOURCE4}	$RPM_BUILD_ROOT%{_bindir}
 install %{SOURCE6}	$RPM_BUILD_ROOT%{_sbindir}/mksvir-cron-updatedb
 
 cat <<EOF >$RPM_BUILD_ROOT%{_sysconfdir}/cron.d/%{name}
-5 * * * *     root    %{_sbindir}/mksvir-cron-updatedb
+5 * * * *	root	%{_sbindir}/mksvir-cron-updatedb
 EOF
 
 mv CONTRIB/CHANGE1.TXT .
@@ -111,6 +114,6 @@ rm -rf $RPM_BUILD_ROOT
 
 %files updater
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_bindir}/mksvir-update
+%attr(755,root,root) %{_bindir}/mksupdate.sh
 %attr(755,root,root) %{_sbindir}/mksvir-cron-updatedb
 %attr(640,root,root) %{_sysconfdir}/cron.d/*
