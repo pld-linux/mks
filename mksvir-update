@@ -12,8 +12,7 @@
 # config
 
 SUBDIR=bazy4
-#MKS_URL="http://download.mks.com.pl/download/linux/$SUBDIR.tgz"
-MKS_URL="http://80.72.32.61/download/linux2/$SUBDIR.tgz"
+MKS_URL="http://download.mks.com.pl/download/linux/$SUBDIR.tgz"
 MKS_PATH="/var/lib/mks"
 HUP=mksd
 LOGPRIO=daemon.info
@@ -62,7 +61,8 @@ mkdir -m 0700 -p "$TMPDIR"
 # remote file timestamp check
 
 [ -n "$DEBUG" ] && echo "Retrieving timestamp"
-wget -S --spider "$MKS_URL" 2>&1 | grep Last-Modified | cut -d' ' -f3- >"$TIMESTAMP"
+wget -q -nd "$MKS_URL" -O "$FNAME.link"
+wget -S --spider -i "$FNAME.link" 2>&1 | grep Last-Modified | cut -d' ' -f3- >"$TIMESTAMP"
 ret=$?
 if [ $ret != 0 ]; then
 	rm -f "$FLOCK"
@@ -82,10 +82,11 @@ fi
 
 [ -n "$DEBUG" ] && echo "Downloading new database"
 [ -f "$FNAME" ] && mv "$FNAME" "$FNAME.last"
-wget -q -nd "$MKS_URL"
+wget -q -nd -i "$FNAME.link"
 if [ $? != 0 ]; then
 	echo "problem with wget. quitting."
 	rm -f "$FNAME"
+	rm -f "$FNAME.link"
 	rm -f "$FLOCK"
 	exit 13
 fi
