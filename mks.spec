@@ -7,8 +7,8 @@ Summary:	An anti-virus utility for Unix
 Summary(pl):	Antywirusowe narzêdzie dla Unixów
 Name:		mks
 Version:	1.9.1
-Release:	1
-License:	distributable
+Release:	2
+License:	This program will be for free till the end of year 2003
 Group:		Applications
 Source0:	http://download.mks.com.pl/download/linux/mks32-1-9-1-Linux-i386.tgz
 # Source0-md5:	e3a7a221db91988a77419b09342fa7bb
@@ -25,7 +25,7 @@ URL:		http://linux.mks.com.pl/
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 ExclusiveArch:	%{ix86}
 
-%description
+[6~%description
 MKS Antivirus is anti-virus scanner for Unix.
 
 %description -l pl
