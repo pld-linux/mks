@@ -6,16 +6,15 @@
 Summary:	An anti-virus utility for Unix
 Summary(pl):	Antywirusowe narzêdzie dla Unixów
 Name:		mks
-Version:	1.9.5
-Release:	3
+Version:	1.9.6
+Release:	1
 License:	This program will be for free till the end of year 2004 (see licence.txt)
 Group:		Applications
-Source0:	http://download.mks.com.pl/download/linux/mks32-%(echo %{version} | tr . -)-Linux-i386.tgz
-# Source0-md5:	2789db2463ca44eddefd696dc3a11d5b
-#Source0:	mks32-1-9-2-Linux-i386.tgz
+Source0:	http://download.mks.com.pl/download/linux/mks32-Linux-i386-%(echo %{version} | tr . -).tgz
+# Source0-md5:	6d8cfa09835d9856aac92c0d26645336
 Source1:	%{name}-vir.cfg
 Source2:	http://download.mks.com.pl/download/linux/bazy4.tgz
-# Source2-md5:	7849f8dc3edff816a59a9e316ea2d2ad
+# Source2-md5:	7bae96b0f8dd8254049fd2897cf238d3
 Source3:	bazy4.tgz.md5sum
 # http://www.nzs.pw.edu.pl/~bkorupcz/pub/prog/patches/mksvir-update
 Source4:	%{name}vir-update
@@ -38,10 +37,14 @@ Summary(pl):	Bazy antywirusowe mks
 Group:		Applications
 
 %description bases
-This package contains antivirus databases from 2003/06/25.
+This package contains antivirus databases from 2004/04/10.
+You shuld use some automagic script for updating bases, as new worms are being 
+born.
 
 %description bases -l pl
-Pakiet ten zawiera bazy antywirusowe z dnia 2003/06/25.
+Pakiet ten zawiera bazy antywirusowe z dnia 2004/04/10.
+Powiniene¶ u¿yæ jakiego¶ automagicznego skryptu do aktualizacji baz, gdy¿ nowe
+wirusy maj± tendencjê do pojawiania siê.
 
 %package updater
 Summary:	Mks Antivirus database updater
