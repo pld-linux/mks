@@ -14,6 +14,9 @@
 # PONIZSZE USTAWIENIA NALEZY DOSTOSOWAC DO LOKALNEJ KONFIGURACJI
 # --------------------------------------------------------------
 
+# pliki baz musz± byæ do odczytu przez mks
+umask 022
+
 # sciezka przeszukiwan
 PATH=/bin:/usr/bin:/usr/local/bin:/sbin:/usr/sbin:/usr/local/sbin
 export PATH
