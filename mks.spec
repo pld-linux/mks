@@ -3,7 +3,7 @@
 Summary:	An anti-virus utility for Unix
 Summary(pl):	Antywirusowe narzêdzie dla Unixów
 Name:		mks
-Version:	1.5.6
+Version:	1.5.8
 Release:	1
 License:	distributable
 Group:		Applications
@@ -13,6 +13,7 @@ Source2:	http://download.mks.com.pl/download/linux/bazy2.tgz
 Source3:	bazy2.tgz.md5sum
 # http://www.nzs.pw.edu.pl/~bkorupcz/pub/prog/patches/mksvir-update
 Source4:	mksvir-update
+Source5:	http://download.mks.com.pl/download/linux/mksLinux-1-5-8.tgz
 URL:		http://linux.mks.com.pl/
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -26,13 +27,13 @@ MKS jest skanerem antywirusowym dla systemów uniksowych.
 cd %{_sourcedir}
 md5sum -c bazy2.tgz.md5sum
 cd -
-%setup -q -c -a 2
+%setup -q -c -a 2 -a 5
 
 %install
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT%{_var}/lib/%{name}
 install -D %{SOURCE1}	$RPM_BUILD_ROOT%{_sysconfdir}/mks_vir.cfg
-install -D mks32	$RPM_BUILD_ROOT%{_bindir}/mks32
+install -D mks32.static	$RPM_BUILD_ROOT%{_bindir}/mks32
 install bazy2/*.dat	$RPM_BUILD_ROOT%{_var}/lib/%{name}/
 install %{SOURCE4}	$RPM_BUILD_ROOT%{_bindir}
 
