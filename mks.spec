@@ -1,7 +1,7 @@
 #
 # Conditional build:
-# _without_md5sum --don't check md5sum for antivirus database (useful
-#	when doing ./builder -g -nc )
+# _without_md5sum	-- don't check md5sum for antivirus database (useful
+#			when doing ./builder -g -nc )
 #
 Summary:	An anti-virus utility for Unix
 Summary(pl):	Antywirusowe narzêdzie dla Unixów
@@ -21,8 +21,8 @@ Source3:	bazy4.tgz.md5sum
 Source4:	%{name}vir-update
 Source5:	http://download.mks.com.pl/download/linux/mksLinux-contrib.tgz
 # Source5-md5:	d73d2ef861b3fddbe4f6dbe60a0a43d1
-Requires:	/usr/bin/wget
 URL:		http://linux.mks.com.pl/
+Requires:	/usr/bin/wget
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 ExclusiveArch:	%{ix86}
 
