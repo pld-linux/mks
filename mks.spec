@@ -72,12 +72,13 @@ mv mks*/* ./
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{%{_var}/lib/%{name},%{_sysconfdir}/cron.d,%{_bindir}}
+install -d $RPM_BUILD_ROOT{%{_var}/lib/%{name},%{_sysconfdir}/cron.d,%{_bindir},%{_sbindir}}
 
 install %{SOURCE1}	$RPM_BUILD_ROOT%{_sysconfdir}/mks_vir.cfg
 install mks32.static	$RPM_BUILD_ROOT%{_bindir}/mks32
 install bazy4/*.dat	$RPM_BUILD_ROOT%{_var}/lib/%{name}
 install %{SOURCE4}	$RPM_BUILD_ROOT%{_bindir}
+install %{SOURCE6}	$RPM_BUILD_ROOT%{_sbindir}/mksvir-cron-updatedb
 
 cat <<EOF >$RPM_BUILD_ROOT%{_sysconfdir}/cron.d/%{name}
 5 * * * *     root    %{_sbindir}/mksvir-cron-updatedb
