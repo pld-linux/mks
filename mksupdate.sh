@@ -1,47 +1,72 @@
 #!/bin/sh
 # sprawdza i/lub pobiera nowa wersje baz wirusow
 # autorzy: Grzegorz Malicki i Dariusz Grzegorski
+# wersja: 1.1  2004.06.22
 
-# WYMAGANE PROGRAMY POMOCNICZE: wget, md5sum, tr
+# 1.1 poprawka czyszczenia, zmiana przekierowan skryptu
+#     na zgodne z innymi shell'ami
+#     '&>/dev/null' zastapione '>/dev/null 2>&1'
+
+# WYMAGANE PROGRAMY POMOCNICZE: wget, md5sum (textutils), tr
 # OPCJONALNE PROGRAMY POMOCNICZE: pgp, logger
 
-# --------------------------------
-# ponizsze wartosci mozna zmieniac
-# --------------------------------
+# --------------------------------------------------------------
+# PONIZSZE USTAWIENIA NALEZY DOSTOSOWAC DO LOKALNEJ KONFIGURACJI
+# --------------------------------------------------------------
 
-# docelowy katalog z bazami
+# sciezka przeszukiwan
+PATH=/bin:/usr/bin:/usr/local/bin:/sbin:/usr/sbin:/usr/local/sbin
+export PATH
+
+# nazwa programu md5sum z pakietu GNU textutils
+MD5SUM=md5sum
+# w dystrybucji Debian jest md5sum.textutils
+#MD5SUM=md5sum.textutils
+
+# sciezka do programu mks32 (lub mks32.static)
+MKS_XXXII=/usr/local/bin/mks32
+
+# katalog z bazami wirusow
+# /var/lib jest zgodny z File Hierarhy Standard 2.3
 MKS_BASES=/var/lib/mks
-
-# log z datami aktualizacji (zakomentuj, aby nie tworzyc logu)
-MKS_UPDATE_LOG="${MKS_BASES}"/mks_vir_update.log
+#MKS_BASES=/usr/local/share/mks_vir
 
 # katalog programu PGP, w ktorym znajduje sie klucz publiczny mks-a
 # (zakomentuj, aby nie weryfikowac danych z serwera)
-#PGP_PATH="${MKS_BASES}"/.pgp
+PGP_PATH="${MKS_BASES}"/.pgp
 
-# katalog, gdzie bazy beda sciagane i obrabiane
+# katalog, gdzie bazy beda sciagane i obrabiane (musi istniec)
 MKS_DOWNLOAD="${MKS_BASES}"/tmp
-
-# plik tymczasowy
-MKS_TMP_FILE="${MKS_DOWNLOAD}"/mkshttpdata
-
-# sciezka do pliku mks32 lub tylko nazwa, jesli plik znajduje sie w $PATH
-MKS_XXXII=mks32
-
-# opcja (facility) logowania
-MKS_LOG_FACILITY=daemon.info
+#MKS_DOWNLOAD=/tmp
 
 # czy wysylac sygnal do demona po wgraniu nowych baz?
 MKSD_KICK=Y
 
+# opcja (facility) logowania
+MKS_LOG_FACILITY=cron
+
+# log z datami aktualizacji (zakomentuj, aby nie tworzyc logu)
+MKS_UPDATE_LOG="${MKS_BASES}"/mks_vir_update.log
+
+# plik tymczasowy
+MKS_TMP_FILE="${MKS_DOWNLOAD}"/mkshttpdata
+
 # URL do pliku startowego z linkiem do baz
 MKS_START_URL=http://download.mks.com.pl/download/linux/bazy.link
 
-
+#####################################
 # dalej lepiej juz nie grzebac
+#####################################
+
 VERBOSE=N
 USELOG=N
 
+#####################################
+
+cleanup ()
+{
+    rm -f "${MKS_TMP_FILE}" "${MKS_DOWNLOAD}"/wgetlist "${MKS_DOWNLOAD}"/copylist "${MKS_DOWNLOAD}"/mksbase?.dat
+}
 
 lecho ()
 {
@@ -107,7 +132,7 @@ mkscheck ()
         if [ "$1" = "force" ]
         then
             echo "${MKS_URL}${NAME}" >>"${MKS_DOWNLOAD}"/wgetlist
-        elif ! echo "${SUM} *${MKS_BASES}/${NAME}" | md5sum --status --check - >/dev/null 2>&1
+        elif ! echo "${SUM} *${MKS_BASES}/${NAME}" | "${MD5SUM}" --status --check - >/dev/null 2>&1
         then
             echo "${MKS_URL}${NAME}" >>"${MKS_DOWNLOAD}"/wgetlist
         else
@@ -225,7 +250,7 @@ mksinstall ()
 
 mkshelp ()
 {
-    lecho info "mksupdate wersja 0.31  (c) MkS Sp. z o.o. 2003,2004"
+    lecho info "mksupdate wersja 0.32  (c) MkS Sp. z o.o. 2003,2004"
     lecho info ""
     lecho info "skladnia: mksupdate opcja [verbose|uselog]"
     lecho info ""
@@ -233,7 +258,7 @@ mkshelp ()
     lecho info "   check    :sprawdza czy sa nowe bazy"
     lecho info "   get      :pobiera nowe bazy jesli trzeba i instaluje"
     lecho info "   getforce :pobiera bazy bez sprawdzania czy to potrzebne i instaluje"
-    lecho info "   install  :sama instalacja jesli pobrane recznie lub wystapil blad"
+    lecho info "   install  :sama instalacja (jesli bazy pobrane recznie)"
     lecho info "   help     :ten opis"
     lecho info ""
     lecho info "na koncu mozna dodac verbose to wtedy bedzie widac co sie dzieje"
@@ -256,13 +281,19 @@ help)
     mkshelp
     ;;
 check)
+    cleanup
     mkscheck noforce
+    cleanup
     ;;
 get)
+    cleanup
     mksget noforce
+    cleanup
     ;;
 getforce)
+    cleanup
     mksget force
+    cleanup
     ;;
 install)
     mksinstall
@@ -272,6 +303,4 @@ install)
     ;;
 esac
 
-rm -f "${MKS_TMP_FILE}"
-rm -f "${MKS_DOWNLOAD}"/wgetlist
-rm -f "${MKS_DOWNLOAD}"/copylist
+exit 0
