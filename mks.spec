@@ -7,14 +7,15 @@ Summary:	An anti-virus utility for Unix
 Summary(pl):	Antywirusowe narzêdzie dla Uniksów
 Name:		mks
 Version:	1.9.6
-Release:	1
+Release:	2
 License:	This program will be for free till the end of year 2004 (see licence.txt)
 Group:		Applications
 Source0:	http://download.mks.com.pl/download/linux/mks32-Linux-i386-%(echo %{version} | tr . -).tgz
 # Source0-md5:	6d8cfa09835d9856aac92c0d26645336
 Source1:	%{name}-vir.cfg
-Source2:	http://download.mks.com.pl/download/linux/bazy4.tgz
-# Source2-md5:	7bae96b0f8dd8254049fd2897cf238d3
+# link to source tgz is inside of http://download.mks.com.pl/download/linux/bazy4.tgz
+Source2:	bazy4.tgz
+# Source2-md5:	d610eb1d7f6f0f24494463f634223e9d
 Source3:	bazy4.tgz.md5sum
 # http://www.nzs.pw.edu.pl/~bkorupcz/pub/prog/patches/mksvir-update
 Source4:	%{name}vir-update
