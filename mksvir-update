@@ -86,13 +86,6 @@ if [ ! -f "$FNAME" ]; then
 	exit 20
 fi
 
-tar ztf "$FNAME" | grep -q "/"
-if [ $? == 0 ]; then
-	echo "PANIC! $MKS_URL contains paths! quitting."
-	rm -f "$FLOCK"
-	exit 21
-fi
-
 tar zxf "$FNAME" -C "$TMPDIR"
 ret=$?
 if [ $ret != 0 ]; then
@@ -101,8 +94,8 @@ if [ $ret != 0 ]; then
 	exit 14
 fi
 
-chmod 0644 $TMPDIR/*.dat
-mv $TMPDIR/*.dat $MKS_PATH
+chmod 0644 $TMPDIR/bazy2/*.dat
+mv $TMPDIR/bazy2/*.dat $MKS_PATH
 
 logger -p "$LOGPRIO" -t "$LOGTAG" "MkS_Vir for Linux database successfully updated."
 [ -n "$HUP" ] && killall -HUP "$HUP"
