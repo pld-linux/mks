@@ -61,7 +61,7 @@ mkdir -m 0700 -p "$TMPDIR"
 # remote file timestamp check
 
 [ -n "$DEBUG" ] && echo "Retrieving timestamp"
-lynx -reload -dump -head "$MKS_URL" | grep Last-Modified >"$TIMESTAMP"
+wget -S --spider "$MKS_URL" 2>&1 | grep Last-Modified | cut -d' ' -f3- >"$TIMESTAMP"
 ret=$?
 if [ $ret != 0 ]; then
 	rm -f "$FLOCK"
