@@ -12,8 +12,7 @@ Version:	1.7.6
 Release:	1
 License:	distributable
 Group:		Applications
-#Source0:	http://download.mks.com.pl/download/linux/mks32-1-7-6-Linux-i386.tgz
-Source0:	mks32-1-7-6-Linux-i386.tgz
+Source0:	http://download.mks.com.pl/download/linux/mks32-1-7-6-Linux-i386.tgz
 # Source0-md5:	23053cb628037893a5f99e6ebe214acd
 Source1:	%{name}-vir.cfg
 Source2:	http://download.mks.com.pl/download/linux/bazy3.tgz
