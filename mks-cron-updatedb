@@ -9,7 +9,7 @@ DIV="$(echo "$(LC_ALL=C date "+%H % ${UPDATE_HOUR}")" | bc)"
 
 if [ "$DIV" = "0" ]; then
 	umask 022
-	log=$(/usr/bin/mksupdate.sh 2>&1)
+	log=$(/usr/bin/mksupdate.sh get 2>&1)
 	if [ "$UPDATE_QUIET" != "yes" -a -n "$log" ]; then
 		echo "$log"
 	fi
