@@ -4,7 +4,7 @@
 #			when doing ./builder -g -nc )
 #
 Summary:	An anti-virus utility for Unix
-Summary(pl):	Antywirusowe narzêdzie dla Unixów
+Summary(pl):	Antywirusowe narzêdzie dla Uniksów
 Name:		mks
 Version:	1.9.6
 Release:	1
@@ -33,35 +33,35 @@ MKS jest skanerem antywirusowym dla systemów uniksowych.
 
 %package bases
 Summary:	Mks Antivirus databases
-Summary(pl):	Bazy antywirusowe mks
+Summary(pl):	Bazy antywirusowe MKS
 Group:		Applications
 
 %description bases
-This package contains antivirus databases from 2004/04/10.
-You shuld use some automagic script for updating bases, as new worms are being 
+This package contains antivirus databases from 2004/04/10. You shuld
+use some automagic script for updating bases, as new worms are being
 born.
 
 %description bases -l pl
-Pakiet ten zawiera bazy antywirusowe z dnia 2004/04/10.
-Powiniene¶ u¿yæ jakiego¶ automagicznego skryptu do aktualizacji baz, gdy¿ nowe
-wirusy maj± tendencjê do pojawiania siê.
+Pakiet ten zawiera bazy antywirusowe z dnia 2004/04/10. Nale¿y u¿ywaæ
+jakich¶ automagicznych skryptów do aktualizacji baz, gdy¿ wci±¿
+pojawiaj± siê nowe wirusy.
 
 %package updater
 Summary:	Mks Antivirus database updater
-Summary(pl):	Aktualizator baz antywirusowych mks
+Summary(pl):	Aktualizator baz antywirusowych MKS
 Group:		Applications
 Requires:	/usr/bin/wget
 Requires:	bc
 
 %description updater
 This package contains antivirus databases updater from
-http://www.nzs.pw.edu.pl/~bkorupcz/pub/prog/patches/mksvir-update and a
-appropriate crontab.daily entry.
+http://www.nzs.pw.edu.pl/~bkorupcz/pub/prog/patches/mksvir-update and
+an appropriate crontab.daily entry.
 
 %description updater -l pl
 Pakiet ten zawiera akualizator baz antywirusowych z
-http://www.nzs.pw.edu.pl/~bkorupcz/pub/prog/patches/mksvir-update
-oraz odpowiedni wpis w crontab.daily.
+http://www.nzs.pw.edu.pl/~bkorupcz/pub/prog/patches/mksvir-update oraz
+odpowiedni wpis w crontab.daily.
 
 %prep
 cd %{_sourcedir}
