@@ -8,12 +8,12 @@
 Summary:	An anti-virus utility for Unix
 Summary(pl):	Antywirusowe narzêdzie dla Unixów
 Name:		mks
-Version:	1.7.5
+Version:	1.7.6
 Release:	1
 License:	distributable
 Group:		Applications
-Source0:	http://download.mks.com.pl/download/linux/mks32-1-7-5-Linux-i386.tgz
-# Source0-md5:	f76a7f90f81971bfd1d04c84b95a62a5
+Source0:	http://download.mks.com.pl/download/linux/mks32-1-7-6-Linux-i386.tgz
+# Source0-md5:	23053cb628037893a5f99e6ebe214acd
 Source1:	%{name}-vir.cfg
 Source2:	http://download.mks.com.pl/download/linux/bazy3.tgz
 # Source2-md5:	d74bf809fc0a3a3068d7326bc72c5a8e
