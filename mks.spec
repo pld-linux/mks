@@ -6,6 +6,7 @@
 # - exctact mksupdate.sh configuration variables to external file,
 #   e.g. /etc/sysconfig/mksupdate
 # - handle mksupdate_en.sh
+# - handle logs
 #
 Summary:	An anti-virus utility for Unix
 Summary(pl):	Antywirusowe narzêdzie dla Uniksów
@@ -77,7 +78,7 @@ mv mks*/* ./
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{%{_var}/lib/%{name},%{_sysconfdir}/cron.d,%{_bindir},%{_sbindir}}
+install -d $RPM_BUILD_ROOT{%{_var}/lib/%{name}/tmp,%{_sysconfdir}/cron.d,%{_bindir},%{_sbindir}}
 
 install %{SOURCE1}	$RPM_BUILD_ROOT%{_sysconfdir}/mks_vir.cfg
 install mks32.static	$RPM_BUILD_ROOT%{_bindir}/mks32
@@ -106,11 +107,12 @@ rm -rf $RPM_BUILD_ROOT
 %doc CHANGE1.TXT postfix1.htm postfix2.txt postfix3.txt readme.txt CONTRIB licencja.txt licence.txt
 %attr(755,root,root) %{_bindir}/mks32
 %attr(755,root,root) %dir %{_var}/lib/%{name}
+%attr(755,root,root) %dir %{_var}/lib/%{name}/tmp
 %config(noreplace) %verify(not md5 size mtime) %{_sysconfdir}/mks_vir.cfg
 
 %files bases
 %defattr(644,root,root,755)
-%attr(644,root,root) %verify(not md5 size mtime) %{_var}/lib/%{name}/*
+%verify(not md5 size mtime) %{_var}/lib/%{name}/mksbase?.dat
 
 %files updater
 %defattr(644,root,root,755)
