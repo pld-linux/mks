@@ -77,7 +77,7 @@ lecho ()
     then
         logger -p "${MKS_LOG_FACILITY}".$1 -t mksupdate -- "$2"
     else
-	[ "$1" = err ] && echo "$2" >&2 || echo $
+	[ "$1" = err ] && echo "$2" >&2 || echo $2
     fi
 }
 
