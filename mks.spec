@@ -1,3 +1,4 @@
+#
 # conditional build:
 # _without_md5sum --don't check md5sum for antivirus database (useful
 #	when doing ./builder -g -nc )
@@ -46,37 +47,39 @@ Pakiet ten zawiera bazy antywirusowe z dnia 2003/05/08.
 %prep
 cd %{_sourcedir}
 %{!?_without_md5sum: md5sum -c bazy3.tgz.md5sum}
-tar xzvf mksLinux-contrib.tgz
 cd -
 
-%setup -q -c -a 2
+%setup -q -c -a2 -a5
 
 %install
-mv %{_sourcedir}/CONTRIB/CHANGE1.TXT %{_builddir}/%{name}-%{version}
-mv %{_sourcedir}/CONTRIB/postfix1.htm %{_builddir}/%{name}-%{version}
-mv %{_sourcedir}/CONTRIB/postfix2.txt %{_builddir}/%{name}-%{version}
-mv %{_sourcedir}/CONTRIB/postfix3.txt %{_builddir}/%{name}-%{version}
-mv %{_sourcedir}/CONTRIB/readme.txt %{_builddir}/%{name}-%{version}
-mv %{_sourcedir}/CONTRIB/2002 %{_builddir}/%{name}-%{version}/CONTRIB
-rm -rf %{_sourcedir}/CONTRIB
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{_var}/lib/%{name},%{_sysconfdir}/cron.daily}
+
 install -D %{SOURCE1}	$RPM_BUILD_ROOT%{_sysconfdir}/mks_vir.cfg
 install -D mks32.static	$RPM_BUILD_ROOT%{_bindir}/mks32
-install bazy3/*.dat	$RPM_BUILD_ROOT%{_var}/lib/%{name}/
+install bazy3/*.dat	$RPM_BUILD_ROOT%{_var}/lib/%{name}
 install %{SOURCE4}	$RPM_BUILD_ROOT%{_bindir}
 ln -sf %{_bindir}/mksvir-update $RPM_BUILD_ROOT/etc/cron.daily/mksvir-update
+
+mv CONTRIB/CHANGE1.TXT .
+mv CONTRIB/postfix1.htm .
+mv CONTRIB/postfix2.txt .
+mv CONTRIB/postfix3.txt .
+mv CONTRIB/readme.txt .
+mv CONTRIB/2002 CONTRIB.2002
+rm -rf CONTRIB
+mv CONTRIB.2002 CONTRIB
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc CHANGE1.TXT  postfix1.htm postfix2.txt postfix3.txt readme.txt CONTRIB
+%doc CHANGE1.TXT postfix1.htm postfix2.txt postfix3.txt readme.txt CONTRIB
 %attr(755,root,root) %{_bindir}/*
 %attr(755,root,root) %dir %{_var}/lib/%{name}
-%attr(644,root,root) %config(noreplace) %verify(not md5 size mtime) %{_sysconfdir}/mks_vir.cfg
-%attr(644,root,root) %{_sysconfdir}/cron.daily/*
+%config(noreplace) %verify(not md5 size mtime) %{_sysconfdir}/mks_vir.cfg
+%{_sysconfdir}/cron.daily/*
 
 %files bases
 %defattr(644,root,root,755)
