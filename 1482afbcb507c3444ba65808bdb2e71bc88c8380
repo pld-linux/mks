@@ -1,0 +1,5 @@
+- adapterized
+- separated antivirus bases
+- cron entry
+- requires wget
+- ExclusiveArch ix86 (probably i386 is not supported)
