@@ -1,6 +1,6 @@
 #
 # Conditional build:
-# _without_md5sum	-- don't check md5sum for antivirus database (useful
+%bcond_without	md5sum	# don't check md5sum for antivirus database (useful
 #			when doing ./builder -g -nc )
 #
 Summary:	An anti-virus utility for Unix
@@ -15,7 +15,7 @@ Source0:	http://download.mks.com.pl/download/linux/mks32-%(echo %{version} | tr 
 #Source0:	mks32-1-9-2-Linux-i386.tgz
 Source1:	%{name}-vir.cfg
 Source2:	http://download.mks.com.pl/download/linux/bazy4.tgz
-# Source2-md5:	5203144f9300955b148220fb11051df7
+# Source2-md5:	7849f8dc3edff816a59a9e316ea2d2ad
 Source3:	bazy4.tgz.md5sum
 # http://www.nzs.pw.edu.pl/~bkorupcz/pub/prog/patches/mksvir-update
 Source4:	%{name}vir-update
@@ -25,8 +25,8 @@ Source6:	%{name}-cron-updatedb
 URL:		http://linux.mks.com.pl/
 Requires:	/usr/bin/wget
 Requires:	bc
-BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 ExclusiveArch:	%{ix86}
+BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
 MKS Antivirus is anti-virus scanner for Unix.
@@ -63,7 +63,7 @@ oraz odpowiedni wpis w crontab.daily.
 
 %prep
 cd %{_sourcedir}
-%{!?_without_md5sum: md5sum -c bazy4.tgz.md5sum}
+%{?with_md5sum: md5sum -c bazy4.tgz.md5sum}
 cd -
 
 %setup -q -c -a2 -a5
