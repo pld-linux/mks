@@ -28,7 +28,7 @@ Source5:	http://download.mks.com.pl/download/linux/mksLinux-contrib.tgz
 # Source5-md5:	d73d2ef861b3fddbe4f6dbe60a0a43d1
 Source6:	%{name}-cron-updatedb
 URL:		http://linux.mks.com.pl/
-ExclusiveArch:	%{ix86} amd64
+ExclusiveArch:	%{ix86} %{x8664}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
