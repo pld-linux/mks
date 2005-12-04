@@ -15,7 +15,7 @@ Version:	1.9.6
 Release:	6
 License:	This program will be for free till the end of year 2004 (see licence.txt)
 Group:		Applications
-Source0:	http://download.mks.com.pl/download/linux/mks32-Linux-i386-%(echo %{version} | tr . -).tgz
+Source0:	http://download.mks.com.pl/download/linux/%{name}32-Linux-i386-%(echo %{version} | tr . -).tgz
 # Source0-md5:	6d8cfa09835d9856aac92c0d26645336
 Source1:	%{name}-vir.cfg
 # link to source tgz is inside http://download.mks.com.pl/download/linux/bazy.link
@@ -24,7 +24,7 @@ Source2:	http://80.72.33.122/download/linux/bazy4.tgz
 Source3:	bazy4.tgz.md5sum
 # http://download.mks.com.pl/download/linux/mksupdate.sh
 Source4:	%{name}update.sh
-Source5:	http://download.mks.com.pl/download/linux/mksLinux-contrib.tgz
+Source5:	http://download.mks.com.pl/download/linux/%{name}Linux-contrib.tgz
 # Source5-md5:	d73d2ef861b3fddbe4f6dbe60a0a43d1
 Source6:	%{name}-cron-updatedb
 URL:		http://linux.mks.com.pl/
@@ -50,7 +50,7 @@ born. You can use for this %{name}-updater.
 %description bases -l pl
 Pakiet ten zawiera bazy antywirusowe z dnia 2004/04/10. Nale¿y u¿ywaæ
 jakich¶ automagicznych skryptów do aktualizacji baz, gdy¿ wci±¿
-pojawiaj± siê nowe wirusy. U¿yæ do tego mo¿esz %{name}-updater. 
+pojawiaj± siê nowe wirusy. U¿yæ do tego mo¿esz %{name}-updater.
 
 %package updater
 Summary:	Mks Antivirus database updater
@@ -65,8 +65,8 @@ This package contains antivirus databases updater and an appropriate
 crontab entry.
 
 %description updater -l pl
-Pakiet ten zawiera aktualizator baz antywirusowych oraz odpowiedni wpis
-do crontaba.
+Pakiet ten zawiera aktualizator baz antywirusowych oraz odpowiedni
+wpis do crontaba.
 
 %prep
 cd %{_sourcedir}
@@ -108,14 +108,14 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/mks32
 %attr(755,root,root) %dir %{_var}/lib/%{name}
 %attr(755,root,root) %dir %{_var}/lib/%{name}/tmp
-%config(noreplace) %verify(not md5 size mtime) %{_sysconfdir}/mks_vir.cfg
+%config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/mks_vir.cfg
 
 %files bases
 %defattr(644,root,root,755)
-%verify(not md5 size mtime) %{_var}/lib/%{name}/mksbase?.dat
+%verify(not md5 mtime size) %{_var}/lib/%{name}/mksbase?.dat
 
 %files updater
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/mksupdate.sh
 %attr(755,root,root) %{_sbindir}/mksvir-cron-updatedb
-%attr(640,root,root) %{_sysconfdir}/cron.d/*
+%attr(640,root,root) /etc/cron.d/*
