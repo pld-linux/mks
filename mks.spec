@@ -9,7 +9,7 @@
 # - handle logs
 #
 Summary:	An anti-virus utility for Unix
-Summary(pl):	Antywirusowe narzêdzie dla Uniksów
+Summary(pl.UTF-8):   Antywirusowe narzÄ™dzie dla UniksÃ³w
 Name:		mks
 Version:	1.9.6
 Release:	6
@@ -34,12 +34,12 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %description
 MKS Antivirus is anti-virus scanner for Unix.
 
-%description -l pl
-MKS jest skanerem antywirusowym dla systemów uniksowych.
+%description -l pl.UTF-8
+MKS jest skanerem antywirusowym dla systemÃ³w uniksowych.
 
 %package bases
 Summary:	Mks Antivirus databases
-Summary(pl):	Bazy antywirusowe MKS
+Summary(pl.UTF-8):   Bazy antywirusowe MKS
 Group:		Applications
 
 %description bases
@@ -47,14 +47,14 @@ This package contains antivirus databases from 2004/04/10. You shuld
 use some automagic script for updating bases, as new worms are being
 born. You can use for this %{name}-updater.
 
-%description bases -l pl
-Pakiet ten zawiera bazy antywirusowe z dnia 2004/04/10. Nale¿y u¿ywaæ
-jakich¶ automagicznych skryptów do aktualizacji baz, gdy¿ wci±¿
-pojawiaj± siê nowe wirusy. U¿yæ do tego mo¿esz %{name}-updater.
+%description bases -l pl.UTF-8
+Pakiet ten zawiera bazy antywirusowe z dnia 2004/04/10. NaleÅ¼y uÅ¼ywaÄ‡
+jakichÅ› automagicznych skryptÃ³w do aktualizacji baz, gdyÅ¼ wciÄ…Å¼
+pojawiajÄ… siÄ™ nowe wirusy. UÅ¼yÄ‡ do tego moÅ¼esz %{name}-updater.
 
 %package updater
 Summary:	Mks Antivirus database updater
-Summary(pl):	Aktualizator baz antywirusowych MKS
+Summary(pl.UTF-8):   Aktualizator baz antywirusowych MKS
 Group:		Applications
 Requires:	/usr/bin/wget
 Requires:	bc
@@ -64,7 +64,7 @@ Requires:	coreutils
 This package contains antivirus databases updater and an appropriate
 crontab entry.
 
-%description updater -l pl
+%description updater -l pl.UTF-8
 Pakiet ten zawiera aktualizator baz antywirusowych oraz odpowiedni
 wpis do crontaba.
 
