@@ -9,7 +9,7 @@
 # - handle logs
 #
 Summary:	An anti-virus utility for Unix
-Summary(pl.UTF-8):   Antywirusowe narzędzie dla Uniksów
+Summary(pl.UTF-8):	Antywirusowe narzędzie dla Uniksów
 Name:		mks
 Version:	1.9.6
 Release:	6
@@ -39,7 +39,7 @@ MKS jest skanerem antywirusowym dla systemów uniksowych.
 
 %package bases
 Summary:	Mks Antivirus databases
-Summary(pl.UTF-8):   Bazy antywirusowe MKS
+Summary(pl.UTF-8):	Bazy antywirusowe MKS
 Group:		Applications
 
 %description bases
@@ -54,7 +54,7 @@ pojawiają się nowe wirusy. Użyć do tego możesz %{name}-updater.
 
 %package updater
 Summary:	Mks Antivirus database updater
-Summary(pl.UTF-8):   Aktualizator baz antywirusowych MKS
+Summary(pl.UTF-8):	Aktualizator baz antywirusowych MKS
 Group:		Applications
 Requires:	/usr/bin/wget
 Requires:	bc
